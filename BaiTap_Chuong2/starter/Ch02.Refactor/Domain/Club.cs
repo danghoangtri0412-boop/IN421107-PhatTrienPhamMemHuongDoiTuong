@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace EduHub.Ch02.Domain;
 
 /// <summary>Câu lạc bộ. Quy tắc nghiệp vụ nên nằm ở đây, không nằm trong ClubManager.</summary>
@@ -14,12 +16,21 @@ public class Club
     // Tên rỗng/toàn khoảng trắng -> ArgumentException; dài hơn MaxNameLength -> ArgumentException.
     public static Club Create(string name, string description)
     {
-        throw new NotImplementedException();
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new ArgumentException("Tên Club không được để trống");
+        }
+        if(name.Length > MaxNameLength)
+        {
+            throw new ArgumentException($"Tên Club không được dài hơn {MaxNameLength} ký tự");
+        }
+
+        return new Club {Id = Guid.NewGuid(), Name = name, Description = description};
     }
 
     // TODO (Nhiệm vụ 4): trả về true khi số thành viên hiện tại còn nhỏ hơn MaxMembers.
     public bool HasRoom(int currentMemberCount)
     {
-        throw new NotImplementedException();
+        return currentMemberCount < MaxMembers;
     }
 }
