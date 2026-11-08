@@ -1,3 +1,4 @@
+using EduHub.Ch02.DesignPattern;
 using EduHub.Ch02.Interface;
 
 namespace EduHub.Ch02.Services;
@@ -15,7 +16,14 @@ public class ReportServices
         _logger = logger;
     }
 
-    public void PrintClubReport()
+    public void Generate(IReportStrategy strategy)
+    {
+        var rows = _clubs.GetAll().Select(c => new ClubReportRow(c.Name, _members.CountByClub(c.Id))).ToList();
+        strategy.OutPut(rows);
+        _logger.Log($"Report Generate {rows.Count} clubs");
+    }
+
+    /* public void PrintClubReport()
     {
         foreach(var club in _clubs.GetAll())
         {
@@ -24,4 +32,5 @@ public class ReportServices
             _logger.Log($"Report generated for {club.Name}");
         }
     }
+    */
 }
