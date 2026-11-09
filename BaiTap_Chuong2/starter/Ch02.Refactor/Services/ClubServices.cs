@@ -33,11 +33,10 @@ public class ClubServices
     {
         var club = _clubs.GetById(clubId) ?? throw new InvalidOperationException("Club not found");
 
-        if(_members.CountByClub(clubId) >= 50)
+        if (!club.HasRoom(_members.GetByClub(clubId).Count))
         {
-            throw new InvalidOperationException("Club is full (max 50 member)");
+            throw new InvalidOperationException($"Club is full");
         }
-
         var member = new Member
         {
             Id = Guid.NewGuid(),
