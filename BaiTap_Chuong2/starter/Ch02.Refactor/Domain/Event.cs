@@ -25,5 +25,6 @@ public class Event
         {
             throw new InvalidOperationException("Member has not registered");
         }
+        CheckedInMemberIds.Add(memberId);
     }
 }
